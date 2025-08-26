@@ -94,8 +94,5 @@ app.get('/posts/:slug', (req, res) => {
   }
 });
 
-// --- SERVER START ---
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+// Export the app for Vercel
+module.exports = app;
