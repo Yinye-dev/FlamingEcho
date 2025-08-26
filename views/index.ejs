@@ -1,0 +1,16 @@
+<%- include('partials/header', {title: title}) %>
+  <h1>Welcome to <%= title %></h1>
+  <p>A collection of my writing.</p>
+  <hr>
+  <h2>All Stories</h2>
+  <ul>
+    <% posts.forEach(post => { %>
+      <li>
+        <a href="/posts/<%= post.slug %>">
+          <h3><%= post.meta.title %></h3>
+        </a>
+        <p><em>By <%= post.meta.author %> on <%= post.meta.date %></em></p>
+      </li>
+    <% }) %>
+  </ul>
+<%- include('partials/footer') %>
