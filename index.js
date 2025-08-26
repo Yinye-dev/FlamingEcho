@@ -10,14 +10,17 @@ const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
-app.use(express.static(path.join(__dirname, 'public')));
+// This one needs to change too!
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // --- ROUTES ---
 
 // Homepage route
 app.get('/', (req, res) => {
-  const postsDir = path.join(__dirname, 'posts');
-  const files = fs.readdirSync(postsDir);
+  // Use process.cwd() for a reliable path in Vercel
+  const postsDir = path.join(process.cwd(), 'posts');
+  let files = fs.readdirSync(postsDir);
+  files = files.filter(file => path.extname(file) === '.md');
 
   const allPosts = files.map(filename => {
     const slug = filename.replace('.md', '');
@@ -34,12 +37,12 @@ app.get('/', (req, res) => {
   res.render('index', { 
     title: 'Flaming Echo', 
     tagline: 'Words that burn. Stories that linger.<br>— Yinye',
-    page: 'home', 
+    page: 'home',
     posts: featuredPosts
   });
 });
 
-// About page route 
+// About page route
 app.get('/about', (req, res) => {
     res.render('about', {
         title: 'About Yinye',
@@ -47,10 +50,12 @@ app.get('/about', (req, res) => {
     });
 });
 
-// Stories page route 
+// Stories page route
 app.get('/stories', (req, res) => {
-  const postsDir = path.join(__dirname, 'posts');
-  const files = fs.readdirSync(postsDir);
+  // Use process.cwd() for a reliable path in Vercel
+  const postsDir = path.join(process.cwd(), 'posts');
+  let files = fs.readdirSync(postsDir);
+  files = files.filter(file => path.extname(file) === '.md');
 
   const posts = files.map(filename => {
     const slug = filename.replace('.md', '');
@@ -63,7 +68,6 @@ app.get('/stories', (req, res) => {
     };
   });
 
-  
   res.render('stories', { 
       title: 'All Stories', 
       posts: posts, 
@@ -71,28 +75,29 @@ app.get('/stories', (req, res) => {
   });
 });
 
-// Single post route 
+// Single post route
 app.get('/posts/:slug', (req, res) => {
-  const slug = req.params.slug;
-  const filePath = path.join(__dirname, 'posts', `${slug}.md`);
-
-  try {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const { data: frontMatter, content } = matter(fileContent);
-    const htmlContent = marked(content);
-    
-    res.render('post', { 
-        title: frontMatter.title, 
-        meta: frontMatter, 
-        content: htmlContent,
-        page: 'post'
-    });
-  } catch (error) {
-    // Log the error to the console to help debug in the future
-    console.error("Error reading post file:", error);
-    res.status(404).send('Story not found!');
-  }
+    const slug = req.params.slug;
+    // Use process.cwd() for a reliable path in Vercel
+    const filePath = path.join(process.cwd(), 'posts', `${slug}.md`);
+  
+    try {
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const { data: frontMatter, content } = matter(fileContent);
+      const htmlContent = marked(content);
+      
+      res.render('post', { 
+          title: frontMatter.title,
+          meta: frontMatter, 
+          content: htmlContent,
+          page: 'post'
+      });
+    } catch (error) {
+      console.error("Error reading post file:", error);
+      res.status(404).send('Story not found!');
+    }
 });
 
-// Export the app for Vercel
+
+// Export for serverless environment
 module.exports = app;
