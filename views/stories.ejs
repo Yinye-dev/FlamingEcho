@@ -1,0 +1,23 @@
+<!-- views/stories.ejs -->
+
+<%- include('partials/header') %>
+
+<main class="page-content">
+    <div class="container">
+        <h1>All Stories</h1>
+        <p>An archive of all published works.</p>
+        <hr>
+        <ul>
+            <% posts.forEach(post => { %>
+                <li>
+                    <a href="/posts/<%= post.slug %>">
+                        <h2><%= post.meta.title %></h2>
+                        <p>By <%= post.meta.author %> | <%= new Date(post.meta.date).getFullYear() %></p>
+                    </a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

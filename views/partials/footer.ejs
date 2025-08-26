@@ -1,2 +1,34 @@
+<!-- views/partials/footer.ejs -->
+<footer>
+    <div class="container footer-content">
+        <div class="footer-logo">Flaming Echo</div>
+        <div class="social-links">
+            <a href="https://github.com/Yinye-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="mailto:yinye.flamingecho@gmail.com" aria-label="Send an Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <div class="copyright">© <%= new Date().getFullYear() %> Flaming Echo by Yinye. All rights reserved.</div>
+    </div>
+</footer>
+
+<script>
+    const header = document.querySelector('header');
+    let lastScrollY = window.scrollY;
+  
+    window.addEventListener('scroll', () => {
+      if (lastScrollY < window.scrollY && window.scrollY > 150) {
+        // Scrolling down & past the initial buffer
+        header.classList.add('header-hidden');
+      } else {
+        // Scrolling up
+        header.classList.remove('header-hidden');
+      }
+      lastScrollY = window.scrollY;
+    });
+  </script>
+
 </body>
 </html>

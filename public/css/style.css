@@ -1,0 +1,719 @@
+:root {
+  --color-primary: #1a3a5f;
+  --color-secondary: #2c5282;
+  --color-accent: #3182ce;
+  --color-dark: #0f172a;
+  --color-light: #f1f5f9;
+  --color-mid: #64748b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Utility class to add space below the fixed header */
+.page-content {
+  padding-top: 120px; /* Adjust this value if your header height changes */
+}
+
+/* Header & Navigation */
+header {
+  background-color: rgba(15, 23, 42, 0.95);
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  transition: transform 0.3s ease-in-out; 
+}
+
+.header-hidden {
+  transform: translateY(-100%);
+}
+
+/* Apply the slide-in animation ONLY to the header on the homepage */
+body.home header {
+  animation: slideDown 0.7s ease-out forwards;
+}
+
+/* We also need to add a transition to the post-header itself for when it reappears */
+.post-header {
+  /* ... your other post-header styles ... */
+  transition: transform 0.3s ease-in-out;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Keyframe animation for the header sliding in on page load */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  font-family: 'Crimson Text', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-image {
+  height: 32px; 
+  width: 32px;  
+}
+
+body.home .logo-image {
+  animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  10% { transform: scale(1.2); }
+  20% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav li {
+  margin-left: 30px;
+}
+
+nav a {
+  color: var(--color-light);
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  position: relative;
+  padding: 8px 20px; /* Adjust padding for size */
+  border-radius: 999px; /* This makes it a capsule */
+  background-color: var(--color-secondary);
+  border: 2px solid transparent; /* Add a transparent border to prevent resizing on hover */
+}
+
+nav a:hover {
+  color: var(--color-light);
+  background-color: var(--color-accent);
+  text-decoration: none; /* remove underline on hover for buttons */
+  border-color: var(--color-light); /* Optional: add a border on hover */
+}
+
+nav a::after {
+  display: none; /* Remove the underline effect since we're using buttons now */
+}
+
+/* Mobile menu */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--color-light);
+  margin: 2px 0;
+  transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.95));
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-family: 'Crimson Text', serif;
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: var(--color-light);
+}
+
+.hero h1 span {
+  color: var(--color-accent);
+  position: relative;
+}
+
+.hero h1 span::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: var(--color-mid);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: var(--color-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  border: 2px solid var(--color-accent);
+  min-width: 220px; 
+  text-align: center
+}
+
+.btn:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(49, 130, 206, 0.2);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-accent);
+  margin-left: 15px;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* Custom style for the tertiary contact button on the homepage */
+.btn-contact {
+  color: var(--color-mid);
+  border-color: var(--color-mid);
+}
+
+.btn-contact:hover {
+  background-color: var(--color-mid);
+  color: var(--color-light); /* Overrides the default hover color */
+  border-color: var(--color-mid); /* Keeps the border color consistent on hover */
+}
+
+/* Featured Stories */
+.featured-stories {
+  padding: 100px 0;
+  background-color: var(--color-dark);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-family: 'Crimson Text', serif;
+  font-size: 2.5rem;
+  color: var(--color-light);
+  display: inline-block;
+}
+
+.section-title h2::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background-color: var(--color-accent);
+  margin: 15px auto;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.story-card {
+  background-color: rgba(68, 132, 206, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.story-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.story-img {
+  height: 200px;
+  background: linear-gradient(120deg, var(--color-primary), var(--color-accent));
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-img i {
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.story-content {
+  padding: 20px;
+}
+
+.story-content h3 {
+  font-family: 'Crimson Text', serif;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--color-light);
+}
+
+.story-content p {
+  color: var(--color-mid);
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.read-more {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.read-more::after {
+  content: "→";
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.read-more:hover::after {
+  transform: translateX(5px);
+}
+
+/* About Preview */
+.about-preview {
+  padding: 100px 0;
+  background-color: rgba(26, 58, 95, 0.2);
+  position: relative;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h2 {
+  font-family: 'Crimson Text', serif;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: var(--color-light);
+}
+
+.about-text p {
+  margin-bottom: 20px;
+  color: var(--color-mid);
+}
+
+/* Footer */
+footer {
+  background-color: rgba(15, 23, 42, 0.98);
+  padding: 50px 0 20px;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'Crimson Text', serif;
+  font-size: 2rem;
+  color: var(--color-accent);
+  margin-bottom: 20px;
+}
+
+.footer-nav {
+  margin-bottom: 30px;
+}
+
+.footer-nav ul {
+  display: flex;
+  list-style: none;
+}
+
+.footer-nav li {
+  margin: 0 15px;
+}
+
+.footer-nav a {
+  color: var(--color-mid);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--color-accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background-color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.copyright {
+  color: var(--color-mid);
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+.node-badge {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-top: 20px;
+}
+
+/* == Single Post Page Styles (FIXED VERSION) == */
+
+.post-page {
+  /* This rule's only job is to push ALL content below the fixed header */
+  padding-top: 120px;
+  min-height: 100vh; /* Ensure full height */
+}
+
+/* This new container handles all the layout for the post */
+.post-container {
+  max-width: 800px; /* Increased from 700px for better readability */
+  width: 90%; /* Add responsive width */
+  margin: 0 auto;   /* Centers the container horizontally */
+  padding: 2rem 1.5rem 4rem 1.5rem; /* Increased padding for better spacing */
+}
+
+.back-link {
+  display: inline-block; /* Changed from block to inline-block */
+  margin-bottom: 2rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500; /* Make it more visible */
+  padding: 0.5rem 0; /* Add some padding for better click area */
+}
+
+.back-link:hover {
+  color: var(--color-light);
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: 3rem; /* Reduced from 4rem for better mobile spacing */
+}
+
+.post-header h1 {
+  font-family: 'Crimson Text', serif;
+  font-size: 3rem; /* Reduced from 3.5rem for mobile */
+  margin-bottom: 1rem;
+  line-height: 1.2; /* Add line-height for better text wrapping */
+}
+
+.post-header p {
+  color: var(--color-mid);
+  font-size: 1rem;
+}
+
+.post-body {
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* Improve styling for elements inside the post */
+.post-body h2, .post-body h3 {
+  font-family: 'Crimson Text', serif;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-body p {
+  margin-bottom: 1.5rem; /* Add spacing between paragraphs */
+}
+
+.post-body a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+.post-body a:hover {
+  color: var(--color-light);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-content {
+      flex-direction: column;
+  }
+  
+  nav ul {
+      margin-top: 20px;
+  }
+  
+  nav li {
+      margin: 0 10px;
+  }
+  
+  .hero h1 {
+      font-size: 2.5rem;
+  }
+  
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto; /* Center the container */
+    text-align: center; /* Center the text inside */
+  }
+  
+  .btn {
+      display: block;
+      margin: 10px auto;
+      width: 200px;
+  }
+  
+  .btn-outline {
+      margin-left: 0;
+  }
+  
+  .menu-toggle {
+      display: flex;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+  }
+  
+  nav ul {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      text-align: center;
+  }
+  
+  nav ul.show {
+      display: flex;
+  }
+  
+  nav li {
+      margin: 10px 0;
+  }
+
+  /* MOBILE POST PAGE FIXES */
+  .post-page {
+    padding-top: 140px; /* Increase for mobile header */
+  }
+  
+  .post-container {
+    width: 95%; /* More width on mobile */
+    padding: 1rem 1rem 3rem 1rem; /* Reduce padding on mobile */
+  }
+  
+  .post-header h1 {
+    font-size: 2rem; /* Much smaller on mobile */
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-header {
+    margin-bottom: 2rem; /* Less margin on mobile */
+  }
+  
+  .post-body {
+    font-size: 1rem; /* Slightly smaller font on mobile */
+    line-height: 1.7;
+  }
+  
+  .back-link {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* VERY SMALL SCREENS POST PAGE FIXES */
+  .post-page {
+    padding-top: 160px; /* Even more space for very small screens */
+  }
+  
+  .post-container {
+    width: 100%;
+    padding: 1rem 0.75rem 2rem 0.75rem;
+  }
+  
+  .post-header h1 {
+    font-size: 1.75rem; /* Even smaller for very small screens */
+    line-height: 1.1;
+  }
+}
+
+/* Post page title sliding behavior */
+.post-header {
+  position: sticky;
+  top: 120px; /* Just below the fixed header */
+  background-color: var(--color-dark);
+  z-index: 100;
+  padding: 2rem 0 1rem 0;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+/* When scrolling, make the title more compact and add border */
+.post-header.scrolled {
+  padding: 1rem 0 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  background-color: rgba(15, 23, 42, 0.95);
+}
+
+.post-header.scrolled h1 {
+  font-size: 1.8rem !important; /* Smaller when scrolled */
+  margin-bottom: 0.5rem;
+}
+
+.post-header.scrolled p {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Adjust post container to account for sticky header */
+body.post .post-container {
+  padding-top: 0; /* Remove top padding since header handles it */
+}
+
+/* Initial title animation on page load */
+.post-header h1 {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: titleSlideUp 0.8s ease-out 0.2s forwards;
+}
+
+.post-header p {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: titleSlideUp 0.8s ease-out 0.4s forwards;
+}
+
+@keyframes titleSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile adjustments for sliding */
+@media (max-width: 768px) {
+  .post-header {
+    top: 140px; /* Account for mobile header height */
+  }
+  
+  .post-header.scrolled h1 {
+    font-size: 1.4rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-header {
+    top: 160px;
+  }
+  
+  .post-header.scrolled h1 {
+    font-size: 1.2rem !important;
+  }
+}

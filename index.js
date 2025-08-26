@@ -1,64 +1,101 @@
 // index.js
 
 const express = require('express');
-const path = require('path'); // Node.js module for working with file paths
-const fs = require('fs'); // Node.js module for working with the file system
-const { marked } = require('marked'); // For converting markdown to HTML
-const matter = require('gray-matter'); // For parsing front-matter
+const path = require('path');
+const fs = require('fs');
+const { marked } = require('marked');
+const matter = require('gray-matter');
 
 const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static('public'));
+// --- ROUTES ---
 
 // Homepage route
 app.get('/', (req, res) => {
-  // 1. Define the path to the posts directory
   const postsDir = path.join(__dirname, 'posts');
-
-app.get('/about', (req, res) => {
-    res.render('about'); // This tells Express to find and render views/about.ejs
-  });
-
-  // 2. Read all the files in the directory
   const files = fs.readdirSync(postsDir);
 
-  // 3. Read and parse each file's content and front-matter
+  const allPosts = files.map(filename => {
+    const slug = filename.replace('.md', '');
+    const fileContent = fs.readFileSync(path.join(postsDir, filename), 'utf-8');
+    const { data: frontMatter } = matter(fileContent);
+
+    return { slug, meta: frontMatter };
+  });
+
+  const featuredPosts = allPosts
+    .sort((a, b) => new Date(b.meta.date) - new Date(a.meta.date))
+    .slice(0, 3);
+
+  res.render('index', { 
+    title: 'Flaming Echo', 
+    tagline: 'Words that burn. Stories that linger.<br>— Yinye',
+    page: 'home', 
+    posts: featuredPosts
+  });
+});
+
+// About page route 
+app.get('/about', (req, res) => {
+    res.render('about', {
+        title: 'About Yinye',
+        page: 'about'
+    });
+});
+
+// Stories page route 
+app.get('/stories', (req, res) => {
+  const postsDir = path.join(__dirname, 'posts');
+  const files = fs.readdirSync(postsDir);
+
   const posts = files.map(filename => {
-    const slug = filename.replace('.md', ''); // Create a URL-friendly slug
+    const slug = filename.replace('.md', '');
     const fileContent = fs.readFileSync(path.join(postsDir, filename), 'utf-8');
     const { data: frontMatter } = matter(fileContent);
 
     return {
       slug: slug,
-      meta: frontMatter, // The front-matter data (title, author, etc.)
+      meta: frontMatter,
     };
   });
 
-  // 4. Render the index page, passing the posts to it
-  res.render('index', { title: 'Flaming Echo', posts: posts });
+  
+  res.render('stories', { 
+      title: 'All Stories', 
+      posts: posts, 
+      page: 'stories'
+  });
 });
 
-// Single post route
+// Single post route 
 app.get('/posts/:slug', (req, res) => {
-    const slug = req.params.slug;
-    const filePath = path.join(__dirname, 'posts', `${slug}.md`);
-  
-    try {
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const { data: frontMatter, content } = matter(fileContent);
-      
-      // Convert markdown content to HTML
-      const htmlContent = marked(content);
-      
-      res.render('post', { meta: frontMatter, content: htmlContent });
-    } catch (error) {
-      // If the file doesn't exist, send a 404 page
-      res.status(404).send('Story not found!');
-    }
-  });
+  const slug = req.params.slug;
+  const filePath = path.join(__dirname, 'posts', `${slug}.md`);
+
+  try {
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const { data: frontMatter, content } = matter(fileContent);
+    const htmlContent = marked(content);
+    
+    res.render('post', { 
+        title: frontMatter.title, 
+        meta: frontMatter, 
+        content: htmlContent,
+        page: 'post'
+    });
+  } catch (error) {
+    // Log the error to the console to help debug in the future
+    console.error("Error reading post file:", error);
+    res.status(404).send('Story not found!');
+  }
+});
+
+// --- SERVER START ---
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

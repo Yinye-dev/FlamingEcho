@@ -1,9 +1,25 @@
-<%- include('partials/header', {title: meta.title}) %>
-  <a href="/">&larr; Back to Home</a>
-  <hr>
-  <h1><%= meta.title %></h1>
-  <p><em>By <%= meta.author %> on <%= meta.date %></em></p>
-  <div class="post-content">
-    <%- content %>
-  </div>
+<%- include('partials/header') %>
+
+<main class="post-page">
+    <div class="post-container">
+
+        <!-- Back link is OUTSIDE the sticky header, so it scrolls normally -->
+        <a href="/stories" class="back-link">← All Stories</a>
+
+        <article>
+            <!-- Only the title and byline are inside the sticky header -->
+            <header class="post-header">
+                <h1><%= meta.title %></h1>
+                <p>By <%= meta.author %> | <%= new Date(meta.date).getFullYear() %></p>
+            </header>
+
+            <!-- The story content scrolls normally -->
+            <div class="post-body">
+                <%- content %>
+            </div>
+        </article>
+
+    </div>
+</main>
+
 <%- include('partials/footer') %>
