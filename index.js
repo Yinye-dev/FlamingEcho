@@ -11,7 +11,6 @@ const port = 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'views')); 
-// This one needs to change too!
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 // --- ROUTES ---
@@ -49,6 +48,14 @@ app.get('/about', (req, res) => {
         title: 'About Yinye',
         page: 'about'
     });
+});
+
+// Contact page route
+app.get('/contact', (req, res) => {
+  res.render('contact', {
+      title: 'Contact - Flaming Echo',
+      page: 'contact'
+  });
 });
 
 // Stories page route
@@ -99,6 +106,13 @@ app.get('/posts/:slug', (req, res) => {
     }
 });
 
+// This block allows the server to run locally for testing,
+// but Vercel will ignore it and use the module.exports line.
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+}
 
-// Export for serverless environment
+// Export the app for Vercel
 module.exports = app;

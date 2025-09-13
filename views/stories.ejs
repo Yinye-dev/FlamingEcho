@@ -4,10 +4,14 @@
 
 <main class="page-content">
     <div class="container">
-        <h1>All Stories</h1>
-        <p>An archive of all published works.</p>
-        <hr>
-        <ul>
+        
+        <div class="stories-page-header">
+            <h1>All Stories</h1>
+            <p>An archive of all published works.</p>
+            <hr>
+        </div>
+
+        <ul class="stories-list">
             <% posts.forEach(post => { %>
                 <li>
                     <a href="/posts/<%= post.slug %>">
@@ -17,6 +21,7 @@
                 </li>
             <% }) %>
         </ul>
+        
     </div>
 </main>
 

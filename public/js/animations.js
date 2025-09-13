@@ -31,6 +31,19 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollY = window.scrollY;
     });
 
+     // ---===================================---
+    // --- 4. MOBILE MENU TOGGLE ---
+    // ---===================================---
+    const menuToggle = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', () => {
+            // The 'show' class is what makes the menu visible
+            navMenu.classList.toggle('show');
+        });
+    }
+
     // ---===========================================---
     // --- 3. FADE-IN ANIMATION FOR STORY CARDS (Stories Page ONLY) ---
     // ---===========================================---
